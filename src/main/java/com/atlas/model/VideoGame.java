@@ -2,10 +2,12 @@ package com.atlas.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.sql.Date;
+
 public class VideoGame {
   private final int gid;
   private final String title;
-  private final String releaseDate;
+  private final Date releaseDate;
   private final String genre;
   private final int pcid;
   private final int sid;
@@ -13,7 +15,7 @@ public class VideoGame {
 
   public VideoGame( int gid,
                     String title,
-                    String releaseDate,
+                    Date releaseDate,
                     String genre,
                     int pcid,
                     int sid,
@@ -37,7 +39,7 @@ public class VideoGame {
   ) {
     this.gid = 0;
     this.title = title;
-    this.releaseDate = releaseDate;
+    this.releaseDate = Date.valueOf(releaseDate);
     this.genre = genre;
     this.pcid = pcid;
     this.sid = sid;
@@ -48,7 +50,7 @@ public class VideoGame {
     return title;
   }
 
-  public String getReleaseDate() {
+  public Date getReleaseDate() {
     return releaseDate;
   }
 
