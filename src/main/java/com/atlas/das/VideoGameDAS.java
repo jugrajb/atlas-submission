@@ -4,7 +4,6 @@ package com.atlas.das;
 import com.atlas.dao.VideoGameDAO;
 import com.atlas.model.VideoGame;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,12 +17,10 @@ import java.util.Optional;
 @Repository("postgres")
 public class VideoGameDAS implements VideoGameDAO {
 
-  private final JdbcTemplate jdbcTemplate;
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
   @Autowired
-  public VideoGameDAS(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-    this.jdbcTemplate = jdbcTemplate;
+  public VideoGameDAS(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
     this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
   }
 
@@ -53,19 +50,24 @@ public class VideoGameDAS implements VideoGameDAO {
 
   @Override
   public int updateVideoGame(int id, VideoGame videoGame) {
-    final String sql = "UPDATE videogame SET title = ?, releaseDate = ?, genre = ?, pcid = ?, sid = ?, pid = ? WHERE gid = ?";
+    final String sql =
+            "UPDATE videogame SET " +
+            "title = :title, releaseDate = :releaseDate, " +
+            "genre = :genre, pcid = :pcid, sid = :sid, " +
+            "pid = :pid WHERE gid = :gid";
+
+    MapSqlParameterSource args = new MapSqlParameterSource();
+    args.addValue("title", videoGame.getTitle());
+    args.addValue("releaseDate", videoGame.getReleaseDate());
+    args.addValue("genre", videoGame.getGenre());
+    args.addValue("pcid", videoGame.getPcid());
+    args.addValue("sid", videoGame.getSid());
+    args.addValue("pid", videoGame.getPid());
+    args.addValue("gid", id);
+
 
     try {
-      jdbcTemplate.update(
-              sql,
-              videoGame.getTitle(),
-              videoGame.getReleaseDate(),
-              videoGame.getGenre(),
-              videoGame.getPcid(),
-              videoGame.getSid(),
-              videoGame.getPid(),
-              id
-      );
+      namedParameterJdbcTemplate.update(sql, args);
     } catch (Exception e) {
       return 0;
     }
@@ -75,10 +77,13 @@ public class VideoGameDAS implements VideoGameDAO {
 
   @Override
   public int deleteVideoGame(int id) {
-    final String sql = "DELETE FROM videogame WHERE gid = ?";
+    final String sql = "DELETE FROM videogame WHERE gid = :gid";
+
+    MapSqlParameterSource args = new MapSqlParameterSource();
+    args.addValue("gid", id);
 
     try {
-      jdbcTemplate.update(sql, id);
+      namedParameterJdbcTemplate.update(sql, args);
     } catch (Exception e) {
       return 0;
     }
@@ -88,15 +93,25 @@ public class VideoGameDAS implements VideoGameDAO {
 
   @Override
   public Optional<VideoGame> getVideoGame(int id) {
-    final String sql  = "SELECT * FROM videogame WHERE gid = ?";
-    VideoGame game = jdbcTemplate.queryForObject(sql, new Object[]{id}, ((resultSet, i) -> formatResultSet(resultSet)));
+    final String sql  = "SELECT * FROM videogame WHERE gid = :gid";
+
+    MapSqlParameterSource args = new MapSqlParameterSource();
+    args.addValue("gid", id);
+
+    List<VideoGame> games = namedParameterJdbcTemplate.query(sql, args, ((resultSet, i) -> formatResultSet(resultSet)));
+
+    VideoGame game = null;
+
+    if(games.size() > 0)
+        game = games.get(0);
+
     return Optional.ofNullable(game);
   }
 
   @Override
   public List<VideoGame> getAllVideoGame() {
     final String sql  = "SELECT * FROM videogame";
-    return jdbcTemplate.query(sql, (resultSet, i) -> formatResultSet(resultSet));
+    return namedParameterJdbcTemplate.query(sql, (resultSet, i) -> formatResultSet(resultSet));
   }
 
   private static VideoGame formatResultSet(ResultSet resultSet) throws SQLException {
