@@ -3,10 +3,7 @@ package com.atlas.das;
 import com.atlas.dao.VideoGamePersonDAO;
 import com.atlas.model.VideoGamePerson;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-=======
->>>>>>> 63dc14c9e2b9b8d11cb97bf987b8c429ba202b6e
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +24,6 @@ public class VideoGamePersonDAS implements VideoGamePersonDAO {
 
     @Override
     public int insertVideoGamePerson(VideoGamePerson person) {
-<<<<<<< HEAD
         final String sql = "INSERT INTO VideoGamePerson " +
                            "(firstname, lastname, birthdate, sid) " +
                            "VALUES (:firstname, :lastname, :birthdate, :sid)";
@@ -44,14 +40,10 @@ public class VideoGamePersonDAS implements VideoGamePersonDAO {
             return 0;
         }
         return 1;
-=======
-        return 0;
->>>>>>> 63dc14c9e2b9b8d11cb97bf987b8c429ba202b6e
     }
 
     @Override
     public int deleteVideoGamePerson(int id) {
-<<<<<<< HEAD
         final String sql = "DELETE FROM VideoGamePerson WHERE pid = :pid";
         MapSqlParameterSource args = new MapSqlParameterSource();
         args.addValue("pid", id);
@@ -61,14 +53,10 @@ public class VideoGamePersonDAS implements VideoGamePersonDAO {
             return 0;
         }
         return 1;
-=======
-        return 0;
->>>>>>> 63dc14c9e2b9b8d11cb97bf987b8c429ba202b6e
     }
 
     @Override
     public int updateVideoGamePerson(int pid, VideoGamePerson person) {
-<<<<<<< HEAD
         final String sql = "UPDATE VideoGamePerson SET " +
                            "firstname = :firstname, lastname = :lastname, " +
                            "birthdate = :birthdate, sid = :sid " +
@@ -86,14 +74,10 @@ public class VideoGamePersonDAS implements VideoGamePersonDAO {
             return 0;
         }
         return 1;
-=======
-        return 0;
->>>>>>> 63dc14c9e2b9b8d11cb97bf987b8c429ba202b6e
     }
 
     @Override
     public Optional<VideoGamePerson> getVideoGamePerson(int pid) {
-<<<<<<< HEAD
         final String sql = "SELECT * FROM VideoGamePerson WHERE pid = :pid";
 
         MapSqlParameterSource args = new MapSqlParameterSource();
@@ -106,9 +90,6 @@ public class VideoGamePersonDAS implements VideoGamePersonDAO {
             person = people.get(0);
 
         return Optional.ofNullable(person);
-=======
-        return Optional.empty();
->>>>>>> 63dc14c9e2b9b8d11cb97bf987b8c429ba202b6e
     }
 
     @Override
