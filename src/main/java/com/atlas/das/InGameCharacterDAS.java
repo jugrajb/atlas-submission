@@ -91,7 +91,7 @@ public class InGameCharacterDAS implements InGameCharacterDAO {
     private InGameCharacter formatResultSet(ResultSet rs) throws SQLException {
         return new InGameCharacter(
                 rs.getInt("cid"),
-                rs.getString("name")
+                rs.getString("name").trim()
         );
     }
 }
