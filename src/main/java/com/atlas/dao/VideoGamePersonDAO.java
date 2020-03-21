@@ -9,7 +9,7 @@ public interface VideoGamePersonDAO {
 
     int insertVideoGamePerson(VideoGamePerson person);
 
-    int deleteVideoGamePerson(VideoGamePerson person);
+    int deleteVideoGamePerson(int id);
 
     int updateVideoGamePerson(int pid, VideoGamePerson person);
 
