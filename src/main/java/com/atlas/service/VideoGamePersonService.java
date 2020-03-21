@@ -28,15 +28,15 @@ public class VideoGamePersonService {
         return videoGamePersonDAO.getAllVideoGamePeople();
     }
 
-    public Optional<VideoGamePerson> getVideoGameById(int id) {
+    public Optional<VideoGamePerson> getVideoGamePersonById(int id) {
         return videoGamePersonDAO.getVideoGamePerson(id);
     }
 
-    public int deleteVideoGame(int id) {
+    public int deleteVideoGamePerson(int id) {
         return videoGamePersonDAO.deleteVideoGamePerson(id);
     }
 
-    public int updateVideoGame(int id, VideoGamePerson videoGamePerson) {
+    public int updateVideoGamePerson(int id, VideoGamePerson videoGamePerson) {
         return videoGamePersonDAO.updateVideoGamePerson(id, videoGamePerson);
     }
 }
