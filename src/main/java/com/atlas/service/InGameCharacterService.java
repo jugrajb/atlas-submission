@@ -18,7 +18,7 @@ public class InGameCharacterService {
         this.inGameCharacterDAO = inGameCharacterDAO;
     }
 
-    public int insert(InGameCharacter character) {
+    public int add(InGameCharacter character) {
         return inGameCharacterDAO.insert(character);
     }
 

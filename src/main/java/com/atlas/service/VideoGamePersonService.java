@@ -1,8 +1,6 @@
 package com.atlas.service;
 
-import com.atlas.dao.VideoGameDAO;
 import com.atlas.dao.VideoGamePersonDAO;
-import com.atlas.model.VideoGame;
 import com.atlas.model.VideoGamePerson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,23 +18,23 @@ public class VideoGamePersonService {
         this.videoGamePersonDAO = videoGamePersonDAO;
     }
 
-    public int addVideoGame(VideoGamePerson videoGamePerson) {
-        return videoGamePersonDAO.insertVideoGamePerson(videoGamePerson);
+    public int add(VideoGamePerson videoGamePerson) {
+        return videoGamePersonDAO.insert(videoGamePerson);
     }
 
-    public List<VideoGamePerson> getAllVideoGamePeople() {
-        return videoGamePersonDAO.getAllVideoGamePeople();
+    public int update(int id, VideoGamePerson videoGamePerson) {
+        return videoGamePersonDAO.update(id, videoGamePerson);
     }
 
-    public Optional<VideoGamePerson> getVideoGamePersonById(int id) {
-        return videoGamePersonDAO.getVideoGamePerson(id);
+    public int delete(int id) {
+        return videoGamePersonDAO.delete(id);
     }
 
-    public int deleteVideoGamePerson(int id) {
-        return videoGamePersonDAO.deleteVideoGamePerson(id);
+    public Optional<VideoGamePerson> get(int id) {
+        return videoGamePersonDAO.get(id);
     }
 
-    public int updateVideoGamePerson(int id, VideoGamePerson videoGamePerson) {
-        return videoGamePersonDAO.updateVideoGamePerson(id, videoGamePerson);
+    public List<VideoGamePerson> getAll() {
+        return videoGamePersonDAO.getAll();
     }
 }

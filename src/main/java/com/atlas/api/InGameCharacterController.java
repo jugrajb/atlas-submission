@@ -20,8 +20,8 @@ public class InGameCharacterController {
     }
 
     @PostMapping
-    public void insert(@Valid @NonNull @RequestBody InGameCharacter character) {
-        inGameCharacterService.insert(character);
+    public void add(@Valid @NonNull @RequestBody InGameCharacter character) {
+        inGameCharacterService.add(character);
     }
 
     @PutMapping(path = "{id}")

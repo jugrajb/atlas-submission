@@ -23,7 +23,7 @@ public class VideoGamePersonDAS implements VideoGamePersonDAO {
     }
 
     @Override
-    public int insertVideoGamePerson(VideoGamePerson person) {
+    public int insert(VideoGamePerson person) {
         final String sql = "INSERT INTO VideoGamePerson " +
                            "(firstname, lastname, birthdate, sid) " +
                            "VALUES (:firstname, :lastname, :birthdate, :sid)";
@@ -32,52 +32,34 @@ public class VideoGamePersonDAS implements VideoGamePersonDAO {
         args.addValue("lastname", person.getLastname());
         args.addValue("birthdate", person.getBirthdate());
         args.addValue("sid", person.getSid());
-
-        try {
-            namedParameterJdbcTemplate.update(sql, args);
-        } catch (Exception e) {
-            System.out.println(e);
-            return 0;
-        }
-        return 1;
+        return sqlUpdate(sql, args);
     }
 
     @Override
-    public int deleteVideoGamePerson(int id) {
-        final String sql = "DELETE FROM VideoGamePerson WHERE pid = :pid";
-        MapSqlParameterSource args = new MapSqlParameterSource();
-        args.addValue("pid", id);
-        try {
-            namedParameterJdbcTemplate.update(sql, args);
-        } catch (Exception e) {
-            return 0;
-        }
-        return 1;
-    }
-
-    @Override
-    public int updateVideoGamePerson(int pid, VideoGamePerson person) {
+    public int update(int pid, VideoGamePerson person) {
         final String sql = "UPDATE VideoGamePerson SET " +
-                           "firstname = :firstname, lastname = :lastname, " +
-                           "birthdate = :birthdate, sid = :sid " +
-                           "WHERE pid = :pid";
+                "firstname = :firstname, lastname = :lastname, " +
+                "birthdate = :birthdate, sid = :sid " +
+                "WHERE pid = :pid";
         MapSqlParameterSource args = new MapSqlParameterSource();
         args.addValue("firstname", person.getFirstname());
         args.addValue("lastname", person.getLastname());
         args.addValue("birthdate", person.getBirthdate());
         args.addValue("sid", person.getSid());
         args.addValue("pid", pid);
-        try {
-            namedParameterJdbcTemplate.update(sql, args);
-        } catch (Exception e) {
-            System.out.println(e);
-            return 0;
-        }
-        return 1;
+        return sqlUpdate(sql, args);
     }
 
     @Override
-    public Optional<VideoGamePerson> getVideoGamePerson(int pid) {
+    public int delete(int id) {
+        final String sql = "DELETE FROM VideoGamePerson WHERE pid = :pid";
+        MapSqlParameterSource args = new MapSqlParameterSource();
+        args.addValue("pid", id);
+        return sqlUpdate(sql, args);
+    }
+
+    @Override
+    public Optional<VideoGamePerson> get(int pid) {
         final String sql = "SELECT * FROM VideoGamePerson WHERE pid = :pid";
 
         MapSqlParameterSource args = new MapSqlParameterSource();
@@ -93,7 +75,7 @@ public class VideoGamePersonDAS implements VideoGamePersonDAO {
     }
 
     @Override
-    public List<VideoGamePerson> getAllVideoGamePeople() {
+    public List<VideoGamePerson> getAll() {
         String sql = "SELECT * FROM VideoGamePerson";
         return namedParameterJdbcTemplate.query(sql, (resultSet, i) -> formatResultSet(resultSet));
     }
@@ -106,5 +88,15 @@ public class VideoGamePersonDAS implements VideoGamePersonDAO {
                 rs.getDate("birthdate"),
                 rs.getInt("sid")
         );
+    }
+
+    private int sqlUpdate(String sql, MapSqlParameterSource args) {
+        try {
+            namedParameterJdbcTemplate.update(sql, args);
+        } catch (Exception e) {
+            System.out.println(e);
+            return 0;
+        }
+        return 1;
     }
 }
