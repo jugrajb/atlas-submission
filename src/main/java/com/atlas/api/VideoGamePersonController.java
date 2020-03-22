@@ -7,43 +7,45 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
-@RequestMapping("app/video-game-person")
+@RequestMapping("app/videogameperson")
 @RestController
 public class VideoGamePersonController {
-    private final VideoGamePersonService vgPersonService;
+    private final VideoGamePersonService videoGamePersonService;
 
     @Autowired
     public VideoGamePersonController(VideoGamePersonService vgPersonService) {
-        this.vgPersonService = vgPersonService;
+        this.videoGamePersonService = vgPersonService;
     }
 
     @PostMapping
-    public void addVideoGamePerson(@Valid @NonNull @RequestBody VideoGamePerson person) {
-        vgPersonService.addVideoGame(person);
-    }
-
-    @GetMapping
-    public List<VideoGamePerson> getAllVideoGamePeople() {
-        return vgPersonService.getAllVideoGamePeople();
-    }
-
-    @GetMapping(path = "{id}")
-    public VideoGamePerson getVideoGamePersonById(@PathVariable("id") int id) {
-        return vgPersonService.getVideoGamePersonById(id).orElse(null);
-    }
-
-    @DeleteMapping(path = "{id}")
-    public void deleteVideoGamePerson(@PathVariable("id") int id) {
-        vgPersonService.deleteVideoGamePerson(id);
+    public void add(@Valid @NonNull @RequestBody VideoGamePerson person) {
+        videoGamePersonService.add(person);
     }
 
     @PutMapping(path="{id}")
-    public void updateVideoGamePerson(@PathVariable("id") int id,
-                                     @Valid @NonNull @RequestBody VideoGamePerson person) {
-        vgPersonService.updateVideoGamePerson(id, person);
+    public void update(@PathVariable("id") int id,
+                       @Valid @NonNull @RequestBody VideoGamePerson person) {
+        videoGamePersonService.update(id, person);
     }
 
+    @DeleteMapping(path = "{id}")
+    public void delete(@PathVariable("id") int id) {
+        videoGamePersonService.delete(id);
+    }
 
+    @GetMapping(path = "{id}")
+    public VideoGamePerson get(@PathVariable("id") int id) {
+        return videoGamePersonService.get(id).orElse(null);
+    }
+
+    @GetMapping
+    public List<VideoGamePerson> getAll() {
+        return videoGamePersonService.getAll();
+    }
 }
