@@ -48,5 +48,4 @@ public class VideoGamePersonController {
     public List<VideoGamePerson> getAll() {
         return videoGamePersonService.getAll();
     }
-
 }

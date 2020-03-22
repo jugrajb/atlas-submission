@@ -7,13 +7,13 @@ import java.util.Optional;
 
 public interface VideoGameDAO {
 
-  int insertVideoGame(VideoGame videoGame);
+  int insert(VideoGame videoGame);
 
-  int updateVideoGame(int id, VideoGame videoGame);
+  int update(int id, VideoGame videoGame);
 
-  int deleteVideoGame(int id);
+  int delete(int id);
 
-  Optional<VideoGame> getVideoGame(int id);
+  Optional<VideoGame> get(int id);
 
-  List<VideoGame> getAllVideoGame();
+  List<VideoGame> getAll();
 }

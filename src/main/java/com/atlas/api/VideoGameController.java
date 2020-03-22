@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@RequestMapping("app/videogame")
+@RequestMapping("app/video-game")
 @RestController
 public class VideoGameController {
 
@@ -21,27 +21,27 @@ public class VideoGameController {
   }
 
   @PostMapping
-  public void addVideoGame(@Valid @NotNull @RequestBody VideoGame videoGame) {
-    videoGameService.addVideoGame(videoGame);
+  public void add(@Valid @NotNull @RequestBody VideoGame videoGame) {
+    videoGameService.add(videoGame);
   }
 
   @DeleteMapping(path = "{id}")
-  public void deleteVideoGame(@PathVariable("id") int id) {
-    videoGameService.deleteVideoGame(id);
+  public void delete(@PathVariable("id") int id) {
+    videoGameService.delete(id);
   }
 
   @PutMapping(path = "{id}")
-  public void updateVideoGame(@RequestBody VideoGame videoGame, @Valid @NotNull @PathVariable int id) {
-    videoGameService.updateVideoGame(id, videoGame);
+  public void update(@RequestBody VideoGame videoGame, @Valid @NotNull @PathVariable int id) {
+    videoGameService.update(id, videoGame);
   }
 
   @GetMapping(path = "{id}")
-  public VideoGame getVideoGame(@PathVariable("id") int id) {
-    return videoGameService.getVideoGameById(id).orElse(null);
+  public VideoGame get(@PathVariable("id") int id) {
+    return videoGameService.get(id).orElse(null);
   }
 
   @GetMapping
-  public List<VideoGame> getAllVideoGame() {
-    return videoGameService.getAllVideoGame();
+  public List<VideoGame> getAll() {
+    return videoGameService.getAll();
   }
 }

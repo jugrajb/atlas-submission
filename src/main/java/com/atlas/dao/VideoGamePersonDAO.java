@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface VideoGamePersonDAO {
-
     int insert(VideoGamePerson person);
 
     int delete(int id);

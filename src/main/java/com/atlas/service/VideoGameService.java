@@ -14,27 +14,27 @@ public class VideoGameService {
   private final VideoGameDAO videoGameDAO;
 
   @Autowired
-  public VideoGameService(@Qualifier("postgres") VideoGameDAO videoGameDAO) {
+  public VideoGameService(@Qualifier("postgres-videogame") VideoGameDAO videoGameDAO) {
     this.videoGameDAO = videoGameDAO;
   }
 
-  public int addVideoGame(VideoGame videoGame) {
-    return videoGameDAO.insertVideoGame(videoGame);
+  public int add(VideoGame videoGame) {
+    return videoGameDAO.insert(videoGame);
   }
 
-  public List<VideoGame> getAllVideoGame() {
-    return videoGameDAO.getAllVideoGame();
+  public List<VideoGame> getAll() {
+    return videoGameDAO.getAll();
   }
 
-  public Optional<VideoGame> getVideoGameById(int id) {
-    return videoGameDAO.getVideoGame(id);
+  public Optional<VideoGame> get(int id) {
+    return videoGameDAO.get(id);
   }
 
-  public int deleteVideoGame(int id) {
-    return videoGameDAO.deleteVideoGame(id);
+  public int delete(int id) {
+    return videoGameDAO.delete(id);
   }
 
-  public int updateVideoGame(int id, VideoGame videoGame) {
-    return videoGameDAO.updateVideoGame(id, videoGame);
+  public int update(int id, VideoGame videoGame) {
+    return videoGameDAO.update(id, videoGame);
   }
 }
