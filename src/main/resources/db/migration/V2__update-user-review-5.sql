@@ -1,0 +1,1 @@
+UPDATE userReview SET review = '' WHERE rid = 5

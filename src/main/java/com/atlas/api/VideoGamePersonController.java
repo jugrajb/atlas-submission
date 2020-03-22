@@ -7,13 +7,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
-@RequestMapping("app/videogameperson")
+@RequestMapping("app/video-game-person")
 @RestController
 public class VideoGamePersonController {
     private final VideoGamePersonService vgPersonService;

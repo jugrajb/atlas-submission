@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("postgres")
+@Repository("postgres-videogame")
 public class VideoGameDAS implements VideoGameDAO {
 
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -25,7 +25,7 @@ public class VideoGameDAS implements VideoGameDAO {
   }
 
   @Override
-  public int insertVideoGame(VideoGame videoGame) {
+  public int insert(VideoGame videoGame) {
     final String sql =
             "INSERT INTO videogame " +
             "(title, releaseDate, genre, pcid, sid, pid) " +
@@ -49,7 +49,7 @@ public class VideoGameDAS implements VideoGameDAO {
   }
 
   @Override
-  public int updateVideoGame(int id, VideoGame videoGame) {
+  public int update(int id, VideoGame videoGame) {
     final String sql =
             "UPDATE videogame SET " +
             "title = :title, releaseDate = :releaseDate, " +
@@ -76,7 +76,7 @@ public class VideoGameDAS implements VideoGameDAO {
   }
 
   @Override
-  public int deleteVideoGame(int id) {
+  public int delete(int id) {
     final String sql = "DELETE FROM videogame WHERE gid = :gid";
 
     MapSqlParameterSource args = new MapSqlParameterSource();
@@ -92,7 +92,7 @@ public class VideoGameDAS implements VideoGameDAO {
   }
 
   @Override
-  public Optional<VideoGame> getVideoGame(int id) {
+  public Optional<VideoGame> get(int id) {
     final String sql  = "SELECT * FROM videogame WHERE gid = :gid";
 
     MapSqlParameterSource args = new MapSqlParameterSource();
@@ -109,7 +109,7 @@ public class VideoGameDAS implements VideoGameDAO {
   }
 
   @Override
-  public List<VideoGame> getAllVideoGame() {
+  public List<VideoGame> getAll() {
     final String sql  = "SELECT * FROM videogame";
     return namedParameterJdbcTemplate.query(sql, (resultSet, i) -> formatResultSet(resultSet));
   }
