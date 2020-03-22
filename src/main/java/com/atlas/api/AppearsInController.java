@@ -39,7 +39,7 @@ public class AppearsInController {
 
     @GetMapping(path = "{gid}/{cid}")
     public AppearsIn get(@PathVariable("gid") int gid,
-                               @PathVariable("cid") int cid) {
+                         @PathVariable("cid") int cid) {
         return appearsInService.get(gid, cid).orElse(null);
     }
 
