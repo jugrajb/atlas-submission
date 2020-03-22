@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository("postgres-ingamecharacter")
@@ -27,13 +28,7 @@ public class InGameCharacterDAS implements InGameCharacterDAO {
         final String sql = "INSERT INTO InGameCharacter (name) VALUES (:name)";
         MapSqlParameterSource args = new MapSqlParameterSource();
         args.addValue("name", character.getName());
-        try {
-            namedParameterJdbcTemplate.update(sql, args);
-        } catch (Exception e) {
-            System.out.println(e);
-            return 0;
-        }
-        return 1;
+        return sqlUpdate(sql, args);
     }
 
     @Override
@@ -42,13 +37,7 @@ public class InGameCharacterDAS implements InGameCharacterDAO {
         MapSqlParameterSource args = new MapSqlParameterSource();
         args.addValue("name", character.getName());
         args.addValue("cid", id);
-        try {
-            namedParameterJdbcTemplate.update(sql, args);
-        } catch (Exception e) {
-            System.out.println(e);
-            return 0;
-        }
-        return 1;
+        return sqlUpdate(sql, args);
     }
 
     @Override
@@ -56,13 +45,7 @@ public class InGameCharacterDAS implements InGameCharacterDAO {
         final String sql = "DELETE FROM InGameCharacter WHERE cid = :cid";
         MapSqlParameterSource args = new MapSqlParameterSource();
         args.addValue("cid", id);
-        try {
-            namedParameterJdbcTemplate.update(sql, args);
-        } catch (Exception e) {
-            System.out.println(e);
-            return 0;
-        }
-        return 1;
+        return sqlUpdate(sql, args);
     }
 
     @Override
@@ -93,5 +76,15 @@ public class InGameCharacterDAS implements InGameCharacterDAO {
                 rs.getInt("cid"),
                 rs.getString("name").trim()
         );
+    }
+
+    private int sqlUpdate(String sql, MapSqlParameterSource args) {
+        try {
+            namedParameterJdbcTemplate.update(sql, args);
+        } catch (Exception e) {
+            System.out.println(e);
+            return 0;
+        }
+        return 1;
     }
 }
