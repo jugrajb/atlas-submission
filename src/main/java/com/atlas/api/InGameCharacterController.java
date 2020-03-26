@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("app/ingamecharacter")
+@RequestMapping("app/in-game-character")
 @RestController
 public class InGameCharacterController {
 

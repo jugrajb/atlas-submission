@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@RequestMapping("app/awardorganization")
+@RequestMapping("app/award-organization")
 @RestController
 public class AwardOrganizationController {
 
