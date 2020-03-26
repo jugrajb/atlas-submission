@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@RequestMapping("app/workedon")
+@RequestMapping("app/worked-on")
 @RestController
 public class WorkedOnController {
     private WorkedOnService workedOnService;

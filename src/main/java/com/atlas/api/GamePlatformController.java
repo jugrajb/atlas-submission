@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@RequestMapping("app/gameplatform")
+@RequestMapping("app/game-platform")
 @RestController
 public class GamePlatformController {
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@RequestMapping("app/publishingcompany")
+@RequestMapping("app/publishing-company")
 @RestController
 public class PublishingCompanyController {
 

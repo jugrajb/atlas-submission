@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequestMapping("app/videogameperson")
+@RequestMapping("app/video-game-person")
 @RestController
 public class VideoGamePersonController {
     private final VideoGamePersonService videoGamePersonService;
