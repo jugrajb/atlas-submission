@@ -18,19 +18,29 @@ public class SummaryScoreService {
         this.summaryScoreDAO = summaryScoreDAO;
     }
 
-    public Optional<SummaryScore> getUserSummaryById(int id) {
-        return summaryScoreDAO.getUserSummaryById(id);
+    public Optional<SummaryScore> getSummaryUserById(int id) {
+        return summaryScoreDAO.getSummaryUserById(id);
     }
 
-    public Optional<SummaryScore> getCriticSummaryById(int id) {
-        return summaryScoreDAO.getCriticSummaryById(id);
+    public Optional<SummaryScore> getSummaryCriticById(int id) {
+        return summaryScoreDAO.getSummaryCriticById(id);
     }
 
-    public List<SummaryScore> getUserSummaryAll() {
-        return summaryScoreDAO.getUserSummaryAll();
+    public List<SummaryScore> getSummaryUserAll() {
+        return summaryScoreDAO.getSummaryUserAll();
     }
 
-    public List<SummaryScore> getCriticSummaryAll() {
-        return summaryScoreDAO.getCriticSummaryAll();
+    public List<SummaryScore> getSummaryCriticAll() {
+        return summaryScoreDAO.getSummaryCriticAll();
     }
+
+    public Optional<SummaryScore> getSummaryUserBest() {
+        return summaryScoreDAO.getSummaryUserBest();
+    }
+
+    public Optional<SummaryScore> getSummaryCriticBest() {
+        return summaryScoreDAO.getSummaryCriticBest();
+    }
+
+
 }

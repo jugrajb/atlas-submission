@@ -6,11 +6,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SummaryScoreDAO {
-    Optional<SummaryScore> getUserSummaryById(int id);
+    Optional<SummaryScore> getSummaryUserById(int id);
 
-    Optional<SummaryScore> getCriticSummaryById(int id);
+    Optional<SummaryScore> getSummaryCriticById(int id);
 
-    List<SummaryScore> getUserSummaryAll();
+    List<SummaryScore> getSummaryUserAll();
 
-    List<SummaryScore> getCriticSummaryAll();
+    List<SummaryScore> getSummaryCriticAll();
+
+    Optional<SummaryScore> getSummaryUserBest();
+
+    Optional<SummaryScore> getSummaryCriticBest();
 }

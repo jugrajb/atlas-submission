@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("app/summary-score")
 @RestController
@@ -22,21 +23,31 @@ public class SummaryScoreController {
 
     @GetMapping(path = "critic/{gid}")
     public SummaryScore getUserSummaryById(@PathVariable("gid") int gid) {
-        return summaryScoreService.getUserSummaryById(gid).orElse(null);
+        return summaryScoreService.getSummaryUserById(gid).orElse(null);
     }
 
     @GetMapping(path = "user/{gid}")
     public SummaryScore getCriticSummaryById(@PathVariable("gid") int gid) {
-        return summaryScoreService.getCriticSummaryById(gid).orElse(null);
+        return summaryScoreService.getSummaryCriticById(gid).orElse(null);
     }
 
     @GetMapping(path = "user")
     public List<SummaryScore> getUserSummaryAll() {
-        return summaryScoreService.getUserSummaryAll();
+        return summaryScoreService.getSummaryUserAll();
     }
 
     @GetMapping(path = "critic")
     public List<SummaryScore> getCriticSummaryAll() {
-        return summaryScoreService.getCriticSummaryAll();
+        return summaryScoreService.getSummaryCriticAll();
+    }
+
+    @GetMapping(path = "user/best")
+    public SummaryScore getSummaryUserBest() {
+        return summaryScoreService.getSummaryUserBest().orElse(null);
+    }
+
+    @GetMapping(path = "critic/best")
+    public SummaryScore getSummaryCriticBest() {
+        return summaryScoreService.getSummaryCriticBest().orElse(null);
     }
 }
