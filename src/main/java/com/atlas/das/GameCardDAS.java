@@ -1,6 +1,7 @@
 package com.atlas.das;
 
 import com.atlas.dao.GameCardDAO;
+import com.atlas.model.Condition;
 import com.atlas.model.GameCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -39,6 +40,22 @@ public class GameCardDAS implements GameCardDAO {
     public List<GameCard> getAll() {
         final String sql = "SELECT gid, title FROM VideoGame ORDER BY title ASC";
         return namedParameterJdbcTemplate.query(sql, (resultSet, i) -> formatResultSet(resultSet));
+    }
+
+    @Override
+    public List<GameCard> getWithCondition(Condition condition) {
+        String sql = "SELECT gid, title FROM VideoGame " +
+                "WHERE %s %s :value " +
+                "ORDER BY title ASC";
+        sql = String.format(sql, condition.getAttribute(), condition.getComparator());
+        MapSqlParameterSource args = new MapSqlParameterSource();
+        args.addValue("value", condition.getValue());
+        try {
+            return namedParameterJdbcTemplate.query(sql, args, (resultSet, i) -> formatResultSet(resultSet));
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 
     private GameCard formatResultSet(ResultSet rs) throws SQLException {

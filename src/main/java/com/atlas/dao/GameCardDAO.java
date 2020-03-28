@@ -1,5 +1,6 @@
 package com.atlas.dao;
 
+import com.atlas.model.Condition;
 import com.atlas.model.GameCard;
 
 import java.util.List;
@@ -10,6 +11,5 @@ public interface GameCardDAO {
 
     List<GameCard> getAll();
 
-    // TODO: getAllWithConditions
-    // List<GameCard> getAll(StringCondition[] strConditions, IntCondition[] intConditions);
+    List<GameCard> getWithCondition(Condition condition);
 }

@@ -1,14 +1,14 @@
 package com.atlas.api;
 
 
+import com.atlas.model.Condition;
 import com.atlas.model.GameCard;
 import com.atlas.service.GameCardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.lang.NonNull;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("app/game-card")
@@ -31,5 +31,8 @@ public class GameCardController {
         return gameCardService.getAll();
     }
 
-    // TODO: Have endpoint where you can add a selection condition in body
+    @PostMapping
+    public List<GameCard> getAll(@Valid @NonNull @RequestBody Condition condition) {
+        return gameCardService.getWithCondition(condition);
+    }
 }

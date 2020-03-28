@@ -1,6 +1,7 @@
 package com.atlas.service;
 
 import com.atlas.dao.GameCardDAO;
+import com.atlas.model.Condition;
 import com.atlas.model.GameCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,5 +25,13 @@ public class GameCardService {
 
     public List<GameCard> getAll() {
         return gameCardDAO.getAll();
+    }
+
+    public List<GameCard> getWithCondition(Condition condition) {
+        // check condition non-null, otherwise ignore
+        if (condition.getAttribute() == null || condition.getComparator() == null || condition.getValue() == null) {
+            return gameCardDAO.getAll();
+        }
+        return gameCardDAO.getWithCondition(condition);
     }
 }
