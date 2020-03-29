@@ -23,8 +23,8 @@ public class SummaryScoreDAS  implements SummaryScoreDAO {
 
     @Override
     public Optional<SummaryScore> getSummaryUserById(int id) {
-        final String sql = "SELECT vg.gid, vg.title, AVG(r.score), MAX(r.score), " +
-                "MIN(r.score), COUNT(r.rid) " +
+        final String sql = "SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max, " +
+                "MIN(r.score) min, COUNT(r.rid) count " +
                 "FROM VideoGame vg LEFT OUTER JOIN UserReview r " +
                 "ON r.gid = vg.gid " +
                 "WHERE vg.gid = :gid " +
