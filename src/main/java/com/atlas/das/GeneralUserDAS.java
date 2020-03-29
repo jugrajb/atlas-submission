@@ -104,10 +104,15 @@ public class GeneralUserDAS implements GeneralUserDAO {
     }
 
     private static GeneralUser formatResultSet(ResultSet resultSet) throws SQLException {
+        byte[] bytes = resultSet.getBytes("profileImage");
+        ByteArrayResource bar = null;
+        if (bytes != null)  {
+            bar = new ByteArrayResource(bytes);
+        }
         return new GeneralUser(
                 Integer.parseInt(resultSet.getString("uid").trim()),
                 resultSet.getString("username").trim(),
-                new ByteArrayResource(resultSet.getBytes("profileImage"))
+                bar
         );
     }
 }
