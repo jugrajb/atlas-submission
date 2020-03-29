@@ -2,6 +2,7 @@ package com.atlas.dao;
 
 import com.atlas.model.Condition;
 import com.atlas.model.GameCard;
+import com.atlas.model.Selection;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,5 +12,5 @@ public interface GameCardDAO {
 
     List<GameCard> getAll();
 
-    List<GameCard> getWithCondition(Condition condition);
+    List<GameCard> getWithSelection(Selection selection);
 }
