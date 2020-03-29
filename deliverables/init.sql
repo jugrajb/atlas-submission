@@ -351,7 +351,7 @@ INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (6, 3, 'Ove
 INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (6, 2, 'Amazing!', 'This game is so good I bought it 5 times.', 10, '2019-01-29');
 INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (7, 5, 'Sad :(', 'I’m 11 and I played this for a few days before my mom took it away from me', 7, '2019-02-06');
 INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (8, 10, 'Mass Effect sucks', 'Never played it but my friend Ken won’t let me borrow it so I think it sucks now', 1, '2019-02-07');
-INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (6, 5, 'VIDEO GAMES CAUSE VIOLENCE', NULL, 5, '2019-02-08');
+INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (6, 5, 'VIDEO GAMES CAUSE VIOLENCE', '', 5, '2019-02-08');
 
 
 INSERT INTO CriticReview (gid, title, review, score, author, url, date) VALUES (4, 'Call of Duty 4: Modern Warfare Review', 'The single-player campaign is over in a flash, but the high quality of that campaign and its terrific multiplayer options make Call of Duty 4 a fantastic package.', 9, 'Jeff Gerstmann', 'https://www.gamespot.com/reviews/call-of-duty-4-modern-warfare-review/1900-6182426/', '2015-05-12');
