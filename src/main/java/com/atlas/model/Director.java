@@ -11,10 +11,10 @@ public class Director {
         this.specialization = specialization;
     }
 
-    public Director(@JsonProperty("specialization") String specialization) {
-        this.pid = 0;
-        this.specialization = specialization;
-    }
+//    public Director(@JsonProperty("specialization") String specialization) {
+//        this.pid = 0;
+//        this.specialization = specialization;
+//    }
 
     public int getPid() {
         return pid;
