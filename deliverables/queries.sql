@@ -171,7 +171,7 @@ SELECT * FROM userReview
 -- Users
 INSERT INTO users (uid, email , password) VALUES (:uid, :email, :password)
 
-UPDATE users SET email = :email, password = :password, WHERE uid = :uid
+UPDATE users SET email = :email, password = :password WHERE uid = :uid
 
 DELETE FROM users WHERE uid = :uid
 
@@ -387,6 +387,15 @@ SELECT %s FROM Users NATURAL JOIN GeneralUser WHERE uid = :uid
 
 -- get user-specified fields for all general users
 SELECT %s FROM Users NATURAL JOIN GeneralUser
+
+
+/*
+This section is for queries related to using triggers in our database.
+*/
+
+SELECT * FROM PasswordChange WHERE uid = :uid ORDER BY changedon
+
+SELECT * FROM PasswordChange ORDER BY uid, changedon
 
 
 

@@ -1,4 +1,5 @@
 -- Initialization Script
+-- V1
 
 CREATE TABLE GameStudio (
     sid SERIAL PRIMARY KEY,
@@ -351,7 +352,7 @@ INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (6, 3, 'Ove
 INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (6, 2, 'Amazing!', 'This game is so good I bought it 5 times.', 10, '2019-01-29');
 INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (7, 5, 'Sad :(', 'I’m 11 and I played this for a few days before my mom took it away from me', 7, '2019-02-06');
 INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (8, 10, 'Mass Effect sucks', 'Never played it but my friend Ken won’t let me borrow it so I think it sucks now', 1, '2019-02-07');
-INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (6, 5, 'VIDEO GAMES CAUSE VIOLENCE', '', 5, '2019-02-08');
+INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (6, 5, 'VIDEO GAMES CAUSE VIOLENCE', NULL, 5, '2019-02-08');
 
 
 INSERT INTO CriticReview (gid, title, review, score, author, url, date) VALUES (4, 'Call of Duty 4: Modern Warfare Review', 'The single-player campaign is over in a flash, but the high quality of that campaign and its terrific multiplayer options make Call of Duty 4 a fantastic package.', 9, 'Jeff Gerstmann', 'https://www.gamespot.com/reviews/call-of-duty-4-modern-warfare-review/1900-6182426/', '2015-05-12');
@@ -366,3 +367,68 @@ INSERT INTO Series VALUES (5, 4);
 INSERT INTO Series VALUES (7, 6);
 INSERT INTO Series VALUES (8, 7);
 INSERT INTO Series VALUES (10, 9);
+
+-- V2 - update user review 5
+
+UPDATE userReview SET review = '' WHERE rid = 5
+
+-- V3 - alter awarded insert userreview
+
+ALTER TABLE Awarded
+DROP CONSTRAINT awarded_name_oid_fkey,
+ADD CONSTRAINT awarded_name_oid_fkey
+  FOREIGN KEY (name, oid)
+  REFERENCES VideoGameAward (name, oid)
+  ON DELETE CASCADE;
+
+INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (6, 10, 'Not impressed', 'Hopefully the next game will be better, not that great', 4, '2019-01-21');
+
+-- V4 - triggers
+
+-- Function and trigger for auto-adding workedon relationship when inserting new videogame
+CREATE OR REPLACE FUNCTION add_director_from_vg()
+    RETURNS trigger AS
+$BODY$
+BEGIN
+    IF NEW.pid IS NOT NULL THEN
+        INSERT INTO WorkedOn (gid, pid, role) VALUES (NEW.gid, NEW.pid, 'DIRECTOR');
+    END IF;
+
+    RETURN NEW;
+END;
+$BODY$ LANGUAGE plpgsql;
+
+CREATE TRIGGER director_from_vg
+    AFTER INSERT
+    ON VideoGame
+    FOR EACH ROW
+    EXECUTE PROCEDURE add_director_from_vg();
+
+
+-- Table, function, trigger for logging changes to passwords
+CREATE TABLE PasswordChange (
+    id SERIAL PRIMARY KEY,
+    uid INT NOT NULL,
+    oldPassword CHAR(40) NOT NULL,
+    newPassword CHAR(40) NOT NULL,
+    changedOn TIMESTAMP(6),
+    FOREIGN KEY (uid) REFERENCES Users (uid)
+        ON DELETE CASCADE
+);
+
+CREATE OR REPLACE FUNCTION log_password_changes()
+    RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    IF NEW.password <> OLD.password THEN
+        INSERT INTO PasswordChange (uid, oldPassword, newPassword, changedOn) VALUES (NEW.uid, OLD.password, NEW.password, now());
+    END IF;
+    RETURN NEW;
+END;
+$BODY$ LANGUAGE plpgsql;
+
+CREATE TRIGGER password_changes
+    AFTER UPDATE
+    ON Users
+    FOR EACH ROW
+    EXECUTE PROCEDURE log_password_changes();
