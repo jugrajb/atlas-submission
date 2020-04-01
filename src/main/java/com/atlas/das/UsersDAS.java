@@ -26,11 +26,11 @@ public class UsersDAS implements UsersDAO {
     public int insert(Users users) {
         final String sql =
                 "INSERT INTO users " +
-                        "(uid, email , password) " +
-                        "VALUES (:uid, :email, :password)";
+                        "(email , password) " +
+                        "VALUES (:email, :password)";
 
         MapSqlParameterSource args = new MapSqlParameterSource();
-        args.addValue("uid", users.getUid());
+//        args.addValue("uid", users.getUid());
         args.addValue("email", users.getEmail());
         args.addValue("password", users.getPassword());
 
