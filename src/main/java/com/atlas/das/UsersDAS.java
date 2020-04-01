@@ -46,7 +46,7 @@ public class UsersDAS implements UsersDAO {
     @Override
     public int update(int id, Users users) {
         final String sql =
-                "UPDATE users SET email = :email, password = :password, WHERE uid = :uid";
+                "UPDATE users SET email = :email, password = :password WHERE uid = :uid";
 
         MapSqlParameterSource args = new MapSqlParameterSource();
         args.addValue("email", users.getEmail());
@@ -57,6 +57,7 @@ public class UsersDAS implements UsersDAO {
         try {
             namedParameterJdbcTemplate.update(sql, args);
         } catch (Exception e) {
+            System.out.println(e);
             return 0;
         }
 
