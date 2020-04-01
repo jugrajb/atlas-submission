@@ -1,8 +1,8 @@
 package com.atlas.service;
 
 import com.atlas.dao.PersonCardDAO;
-import com.atlas.model.Condition;
 import com.atlas.model.PersonCard;
+import com.atlas.model.Selection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -27,11 +27,7 @@ public class PersonCardService {
         return personCardDAO.getAll();
     }
 
-    public List<PersonCard> getWithCondition(Condition condition) {
-        // check condition non-null, otherwise ignore
-        if (condition.getAttribute() == null || condition.getComparator() == null || condition.getValue() == null) {
-            return personCardDAO.getAll();
-        }
-        return personCardDAO.getWithCondition(condition);
+    public List<PersonCard> getWithSelection(Selection selection) {
+        return personCardDAO.getWithSelection(selection);
     }
 }

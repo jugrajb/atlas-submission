@@ -11,10 +11,10 @@ public class VoiceActor {
         this.primaryLanguage  = primaryLanguage ;
     }
 
-    public VoiceActor(@JsonProperty("specialization") String primaryLanguage ) {
-        this.pid = 0;
-        this.primaryLanguage  = primaryLanguage ;
-    }
+//    public VoiceActor(@JsonProperty("specialization") String primaryLanguage ) {
+//        this.pid = 0;
+//        this.primaryLanguage  = primaryLanguage ;
+//    }
 
     public int getPid() {
         return pid;

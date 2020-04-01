@@ -9,9 +9,9 @@ public class GeneralUser {
     private final ByteArrayResource profileImage;
 
     public GeneralUser (
-            @JsonProperty("uid") int uid,
-            @JsonProperty("username") String username,
-            @JsonProperty("profileImage") ByteArrayResource profileImage
+            int uid,
+            String username,
+            ByteArrayResource profileImage
     ) {
         this.uid = uid;
         this.username  = username;

@@ -27,8 +27,8 @@ public class UserReviewDAS implements UserReviewDAO {
     public int insert(UserReview userReview) {
         final String sql =
                 "INSERT INTO userReview " +
-                        "(gid, uid, title, review, score, date) " +
-                        "VALUES ((gid, title, review, score, author, url, date))";
+                        "(uid, gid, title, review, score, date) " +
+                        "VALUES (:uid, :gid, :title, :review, :score, :date)";
 
         MapSqlParameterSource args = new MapSqlParameterSource();
         args.addValue("gid", userReview.getGid());

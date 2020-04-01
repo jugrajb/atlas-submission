@@ -8,9 +8,9 @@ public class Users {
     private final String password;
 
     public Users(
-            @JsonProperty("uid") int uid,
-            @JsonProperty("email") String email,
-            @JsonProperty("password") String password
+            int uid,
+            String email,
+            String password
     ) {
         this.uid = uid;
         this.email  = email;

@@ -26,11 +26,11 @@ public class UsersDAS implements UsersDAO {
     public int insert(Users users) {
         final String sql =
                 "INSERT INTO users " +
-                        "(uid, email , password) " +
-                        "VALUES (:uid, :email, :password)";
+                        "(email , password) " +
+                        "VALUES (:email, :password)";
 
         MapSqlParameterSource args = new MapSqlParameterSource();
-        args.addValue("uid", users.getUid());
+//        args.addValue("uid", users.getUid());
         args.addValue("email", users.getEmail());
         args.addValue("password", users.getPassword());
 
@@ -46,7 +46,7 @@ public class UsersDAS implements UsersDAO {
     @Override
     public int update(int id, Users users) {
         final String sql =
-                "UPDATE users SET email = :email, password = :password, WHERE uid = :uid";
+                "UPDATE users SET email = :email, password = :password WHERE uid = :uid";
 
         MapSqlParameterSource args = new MapSqlParameterSource();
         args.addValue("email", users.getEmail());
@@ -57,6 +57,7 @@ public class UsersDAS implements UsersDAO {
         try {
             namedParameterJdbcTemplate.update(sql, args);
         } catch (Exception e) {
+            System.out.println(e);
             return 0;
         }
 

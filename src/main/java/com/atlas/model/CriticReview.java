@@ -15,14 +15,14 @@ public class CriticReview {
     private final Date date;
 
     public CriticReview (
-            @JsonProperty("rid") int rid,
-            @JsonProperty("gid") int gid,
-            @JsonProperty("title") String title,
-            @JsonProperty("review") String review,
-            @JsonProperty("score") int score,
-            @JsonProperty("author") String author,
-            @JsonProperty("url") String url,
-            @JsonProperty("date") Date date
+            int rid,
+            int gid,
+            String title,
+            String review,
+            int score,
+            String author,
+            String url,
+            Date date
     ) {
         this.rid = rid;
         this.gid = gid;

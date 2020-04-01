@@ -8,9 +8,9 @@ public class Administrator {
     private final String lastname;
 
     public Administrator(
-            @JsonProperty("uid") int uid,
-            @JsonProperty("firstname") String firstname,
-            @JsonProperty("lastname") String lastname
+            int uid,
+            String firstname,
+            String lastname
     ) {
         this.uid = uid;
         this.firstname  = firstname;

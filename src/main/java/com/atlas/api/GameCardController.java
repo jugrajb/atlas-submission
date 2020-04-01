@@ -1,8 +1,8 @@
 package com.atlas.api;
 
 
-import com.atlas.model.Condition;
 import com.atlas.model.GameCard;
+import com.atlas.model.Selection;
 import com.atlas.service.GameCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -32,7 +32,7 @@ public class GameCardController {
     }
 
     @PostMapping
-    public List<GameCard> getAll(@Valid @NonNull @RequestBody Condition condition) {
-        return gameCardService.getWithCondition(condition);
+    public List<GameCard> getAllWithSelection(@Valid @NonNull @RequestBody Selection selection) {
+        return gameCardService.getWithSelection(selection);
     }
 }

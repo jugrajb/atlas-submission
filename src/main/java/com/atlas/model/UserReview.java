@@ -14,13 +14,13 @@ public class UserReview {
     private final Date date;
 
     public UserReview (
-            @JsonProperty("rid") int rid,
-            @JsonProperty("uid") int uid,
-            @JsonProperty("gid") int gid,
-            @JsonProperty("title") String title,
-            @JsonProperty("review") String review,
-            @JsonProperty("score") int score,
-            @JsonProperty("date") Date date
+            int rid,
+            int uid,
+            int gid,
+            String title,
+            String review,
+            int score,
+            Date date
     ) {
         this.rid = rid;
         this.uid = uid;
