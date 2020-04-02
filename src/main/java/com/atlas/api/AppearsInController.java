@@ -1,7 +1,6 @@
 package com.atlas.api;
 
 import com.atlas.model.AppearsIn;
-import com.atlas.model.InGameCharacter;
 import com.atlas.service.AppearsInService;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("app/appears-in")
 @RestController
 public class AppearsInController {

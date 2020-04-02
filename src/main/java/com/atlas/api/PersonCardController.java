@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("app/person-card")
 @RestController
 public class PersonCardController {

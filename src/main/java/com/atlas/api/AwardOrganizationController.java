@@ -1,6 +1,5 @@
 package com.atlas.api;
 
-import com.atlas.dao.AwardOrganizationDAO;
 import com.atlas.model.AwardOrganization;
 import com.atlas.service.AwardOrganizationService;
 import org.springframework.lang.NonNull;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("app/award-organization")
 @RestController
 public class AwardOrganizationController {

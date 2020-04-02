@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("app/in-game-character")
 @RestController
 public class InGameCharacterController {

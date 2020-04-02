@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("app/game-studio")
 @RestController
 public class GameStudioController {

@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("app/director")
 @RestController
 public class DirectorController {
