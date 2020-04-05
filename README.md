@@ -1,3 +1,6 @@
+## NOTE
+- This project is NOT runnable if no AWS credentials are passed to AWSConfig
+
 ## Setup Instructions Local
 
 **Docker**
