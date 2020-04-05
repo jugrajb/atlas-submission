@@ -1,4 +1,5 @@
 ## NOTE
+- This project is only for submission purposes for CPSC 304
 - This project is NOT runnable if no AWS credentials are passed to AWSConfig
 
 ## Setup Instructions Local
