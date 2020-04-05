@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("*")
 @RequestMapping("app/user-review")
 @RestController
 public class UserReviewController {
@@ -44,5 +45,10 @@ public class UserReviewController {
     @GetMapping
     public List<UserReview> getAll() {
         return userReviewService.getAll();
+    }
+
+    @GetMapping(path = "game/{gid}")
+    public List<Map<String, Object>> getAllByGid(@PathVariable("gid") int id) {
+      return userReviewService.getAllByGid(id);
     }
 }

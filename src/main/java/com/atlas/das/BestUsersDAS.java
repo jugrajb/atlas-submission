@@ -3,7 +3,6 @@ package com.atlas.das;
 import com.atlas.dao.BestUsersDAO;
 import com.atlas.model.GeneralUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -32,15 +31,14 @@ public class BestUsersDAS implements BestUsersDAO {
     }
 
     private static GeneralUser formatResultSet(ResultSet resultSet) throws SQLException {
-        byte[] bytes = resultSet.getBytes("profileImage");
-        ByteArrayResource bar = null;
-        if (bytes != null)  {
-            bar = new ByteArrayResource(bytes);
+        String profileImage = resultSet.getString("profileImage");
+        if (profileImage != null)  {
+            profileImage = profileImage.trim();
         }
         return new GeneralUser(
                 Integer.parseInt(resultSet.getString("uid").trim()),
                 resultSet.getString("username").trim(),
-                bar
+                profileImage
         );
     }
 }

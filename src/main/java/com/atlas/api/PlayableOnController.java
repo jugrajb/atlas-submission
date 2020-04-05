@@ -1,5 +1,6 @@
 package com.atlas.api;
 
+import com.atlas.model.GamePlatform;
 import com.atlas.model.PlayableOn;
 import com.atlas.service.PlayableOnService;
 import org.springframework.lang.NonNull;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("*")
 @RequestMapping("app/playable-on")
 @RestController
 public class PlayableOnController {
@@ -48,5 +49,9 @@ public class PlayableOnController {
         return playableOnService.getAll();
     }
 
+    @GetMapping(path = "{gid}")
+    public List<GamePlatform> getAllPlatformsForVideoGame(@PathVariable("gid") int gid) {
+      return playableOnService.getAllPlatformsForVideoGame(gid);
+    }
 
 }

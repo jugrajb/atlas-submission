@@ -68,7 +68,7 @@ public class GamePlatformDAS implements GamePlatformDAO {
         return namedParameterJdbcTemplate.query(sql, (resultSet, i) -> formatResultSet(resultSet));
     }
 
-    private GamePlatform formatResultSet(ResultSet rs) throws SQLException {
+    public static GamePlatform formatResultSet(ResultSet rs) throws SQLException {
         return new GamePlatform(
                 rs.getInt("gpid"),
                 rs.getString("name").trim()

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class AuthService {
   private AuthDAO authDAO;
@@ -15,7 +17,7 @@ public class AuthService {
     this.authDAO = authDAO;
   }
 
-  public int login(Auth auth) {
+  public Map<String, Object> login(Auth auth) {
     return authDAO.login(auth);
   }
 

@@ -114,7 +114,17 @@ public class CriticReviewDAS implements CriticReviewDAO {
         return namedParameterJdbcTemplate.query(sql, (resultSet, i) -> formatResultSet(resultSet));
     }
 
-    private static CriticReview formatResultSet(ResultSet resultSet) throws SQLException {
+  @Override
+  public List<CriticReview> getAllByGid(int id) {
+    final String sql  = "SELECT * FROM criticReview WHERE gid = :gid";
+
+    MapSqlParameterSource args = new MapSqlParameterSource();
+    args.addValue("gid", id);
+
+    return namedParameterJdbcTemplate.query(sql, args, (resultSet, i) -> formatResultSet(resultSet));
+  }
+
+  private static CriticReview formatResultSet(ResultSet resultSet) throws SQLException {
         return new CriticReview(
                 Integer.parseInt(resultSet.getString("rid").trim()),
                 Integer.parseInt(resultSet.getString("gid").trim()),

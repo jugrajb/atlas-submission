@@ -158,7 +158,7 @@ SELECT * FROM series WHERE gid = :gid
 SELECT * FROM series
 
 -- UserReview
-INSERT INTO userReview (gid, uid, title, review, score, date) VALUES (:gid, :title, :review, :score, :author, :url, :date)
+INSERT INTO userReview (uid, gid, title, review, score, date) VALUES (:uid, :gid, :title, :review, :score, :date)
 
 UPDATE userReview SET gid = :gid, uid = :uid, title = :title, review = :review, score = :score, date = :date WHERE rid = :rid
 
@@ -169,7 +169,7 @@ SELECT * FROM userReview WHERE rid = :rid
 SELECT * FROM userReview
 
 -- Users
-INSERT INTO users (uid, email , password) VALUES (:uid, :email, :password)
+INSERT INTO users (email , password) VALUES (:email, :password)
 
 UPDATE users SET email = :email, password = :password WHERE uid = :uid
 
@@ -245,7 +245,7 @@ SELECT * FROM WorkedOn WHERE gid = :gid AND pid = :pid
 
 SELECT * FROM WorkedOn
 
-/* 
+/*
 This section is for complex queries used in our application, and a description
 for each as a comment above the SQL query
 
@@ -256,7 +256,7 @@ manipulation in Java to accomodate for custom conditions and custom fields
 
 -- (BestUsers)
 -- find users that left reviews on every game that has reviews
-SELECT * FROM GeneralUser u 
+SELECT * FROM GeneralUser u
 WHERE NOT EXISTS
 (SELECT DISTINCT r1.gid FROM UserReview r1) EXCEPT
 (SELECT DISTINCT r2.gid FROM UserReview r2
@@ -265,19 +265,19 @@ WHERE r2.uid = u.uid))
 -- (CharacterVa)
 -- find voice actor - character pairs for a particular game
 SELECT vg.gid, c.cid, p.pid, vg.title,c.name AS character, p.firstname, p.lastname
-FROM VideoGame vg, InGameCharacter c, AppearsIn a, 
-VoicePerformanceBy vp, VoiceActor va, VideoGamePerson p 
-WHERE vg.gid = a.gid AND c.cid = a.cid AND vp.pid = va.pid AND 
-vp.cid = c.cid AND va.pid = p.pid AND vg.gid = :gid 
+FROM VideoGame vg, InGameCharacter c, AppearsIn a,
+VoicePerformanceBy vp, VoiceActor va, VideoGamePerson p
+WHERE vg.gid = a.gid AND c.cid = a.cid AND vp.pid = va.pid AND
+vp.cid = c.cid AND va.pid = p.pid AND vg.gid = :gid
 ORDER BY c.name ASC
 
 -- find voice actor - character pairs for all games
-SELECT vg.gid, c.cid, p.pid, vg.title,c.name AS character, p.firstname, p.lastname 
-FROM VideoGame vg, InGameCharacter c, AppearsIn a, 
-VoicePerformanceBy vp, VoiceActor va, VideoGamePerson p 
-WHERE vg.gid = a.gid AND c.cid = a.cid AND vp.pid = va.pid AND 
-vp.cid = c.cid AND va.pid = p.pid 
-ORDER BY vg.title, c.name ASC 
+SELECT vg.gid, c.cid, p.pid, vg.title,c.name AS character, p.firstname, p.lastname
+FROM VideoGame vg, InGameCharacter c, AppearsIn a,
+VoicePerformanceBy vp, VoiceActor va, VideoGamePerson p
+WHERE vg.gid = a.gid AND c.cid = a.cid AND vp.pid = va.pid AND
+vp.cid = c.cid AND va.pid = p.pid
+ORDER BY vg.title, c.name ASC
 
 -- (GameCard)
 -- get particular game card
@@ -287,8 +287,8 @@ SELECT gid, title FROM VideoGame WHERE gid = :gid
 SELECT gid, title FROM VideoGame ORDER BY title ASC
 
 -- get all game cards with given condition
-SELECT gid, title FROM VideoGame 
-WHERE %s %s :value 
+SELECT gid, title FROM VideoGame
+WHERE %s %s :value
 ORDER BY title ASC
 
 
@@ -300,86 +300,86 @@ SELECT pid, firstname, lastname FROM VideoGamePerson WHERE pid = :pid
 SELECT pid, firstname, lastname FROM VideoGamePerson ORDER BY firstname, lastname ASC
 
 -- get all person cards with given condition
-SELECT pid, firstname, lastname FROM VideoGamePerson 
-WHERE %s %s :value 
+SELECT pid, firstname, lastname FROM VideoGamePerson
+WHERE %s %s :value
 ORDER BY firstname, lastname ASC
 
 -- (PersonGame)
 -- get all games that a person worked on
-SELECT vg.gid, vg.title, vg.releaseDate 
-FROM VideoGame vg 
-WHERE vg.gid IN  
+SELECT vg.gid, vg.title, vg.releaseDate
+FROM VideoGame vg
+WHERE vg.gid IN
 (SELECT w.gid FROM WorkedOn w WHERE w.pid = :pid)
 
 -- get all people that worked on a game
-SELECT p.pid, p.firstname, p.lastname, w.role 
-FROM VideoGamePerson p, WorkedOn w, VideoGame vg 
+SELECT p.pid, p.firstname, p.lastname, w.role
+FROM VideoGamePerson p, WorkedOn w, VideoGame vg
 WHERE w.pid = p.pid AND w.gid = vg.gid AND vg.gid = :gid
 
 -- (RelatedGames)
 -- get all games that are involved in a series with a given game
-SELECT vg.gid, vg.title 
-FROM VideoGame vg, Series s WHERE s.gid = vg.gid AND s.prevGid = :gid 
-UNION 
-SELECT vg.gid, vg.title 
+SELECT vg.gid, vg.title
+FROM VideoGame vg, Series s WHERE s.gid = vg.gid AND s.prevGid = :gid
+UNION
+SELECT vg.gid, vg.title
 FROM VideoGame vg, Series s WHERE s.prevGid = vg.gid AND s.gid = :gid
 
 -- (SummaryScore)
 -- get aggregated summary of user scores for a particular game
-SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max, 
-MIN(r.score) min, COUNT(r.rid) count 
-FROM VideoGame vg LEFT OUTER JOIN UserReview r 
-ON r.gid = vg.gid 
-WHERE vg.gid = :gid 
+SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max,
+MIN(r.score) min, COUNT(r.rid) count
+FROM VideoGame vg LEFT OUTER JOIN UserReview r
+ON r.gid = vg.gid
+WHERE vg.gid = :gid
 GROUP BY vg.gid, vg.title
 
 -- get aggregated summary of critic scores for a particular game
-SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max, 
-MIN(r.score) min, COUNT(r.rid) count 
-FROM VideoGame vg LEFT OUTER JOIN CriticReview r 
-ON r.gid = vg.gid 
-WHERE vg.gid = :gid 
+SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max,
+MIN(r.score) min, COUNT(r.rid) count
+FROM VideoGame vg LEFT OUTER JOIN CriticReview r
+ON r.gid = vg.gid
+WHERE vg.gid = :gid
 GROUP BY vg.gid, vg.title
 
 -- get aggregated summary of user scores for all games
-SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max, 
-MIN(r.score) min, COUNT(r.rid) count 
-FROM VideoGame vg LEFT OUTER JOIN UserReview r 
-ON r.gid = vg.gid 
-GROUP BY vg.gid, vg.title 
-ORDER BY vg.gid 
+SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max,
+MIN(r.score) min, COUNT(r.rid) count
+FROM VideoGame vg LEFT OUTER JOIN UserReview r
+ON r.gid = vg.gid
+GROUP BY vg.gid, vg.title
+ORDER BY vg.gid
 
 -- get aggregated summary of critic scores for all games
-SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max, 
-MIN(r.score) min, COUNT(r.rid) count 
-FROM VideoGame vg LEFT OUTER JOIN CriticReview r 
-ON r.gid = vg.gid 
-GROUP BY vg.gid, vg.title 
-ORDER BY vg.gid 
+SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max,
+MIN(r.score) min, COUNT(r.rid) count
+FROM VideoGame vg LEFT OUTER JOIN CriticReview r
+ON r.gid = vg.gid
+GROUP BY vg.gid, vg.title
+ORDER BY vg.gid
 
 -- get aggregated summary for highest average user-scored game
-SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max, 
-MIN(r.score) min, COUNT(r.rid) count 
-FROM VideoGame vg, UserReview r 
-WHERE r.gid = vg.gid 
-GROUP BY vg.gid, vg.title 
-HAVING AVG(r.score) >= ALL 
-(SELECT AVG(r.score) 
- FROM VideoGame vg, UserReview r 
- WHERE r.gid = vg.gid 
- GROUP BY vg.gid) 
+SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max,
+MIN(r.score) min, COUNT(r.rid) count
+FROM VideoGame vg, UserReview r
+WHERE r.gid = vg.gid
+GROUP BY vg.gid, vg.title
+HAVING AVG(r.score) >= ALL
+(SELECT AVG(r.score)
+ FROM VideoGame vg, UserReview r
+ WHERE r.gid = vg.gid
+ GROUP BY vg.gid)
 
 -- get aggregated summary for highest average critic-scored game
-SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max, 
-MIN(r.score) min, COUNT(r.rid) count 
-FROM VideoGame vg, CriticReview r 
-WHERE r.gid = vg.gid 
-GROUP BY vg.gid, vg.title 
-HAVING AVG(r.score) >= ALL 
-(SELECT AVG(r.score) 
- FROM VideoGame vg, CriticReview r 
- WHERE r.gid = vg.gid 
- GROUP BY vg.gid) 
+SELECT vg.gid, vg.title, AVG(r.score) avg, MAX(r.score) max,
+MIN(r.score) min, COUNT(r.rid) count
+FROM VideoGame vg, CriticReview r
+WHERE r.gid = vg.gid
+GROUP BY vg.gid, vg.title
+HAVING AVG(r.score) >= ALL
+(SELECT AVG(r.score)
+ FROM VideoGame vg, CriticReview r
+ WHERE r.gid = vg.gid
+ GROUP BY vg.gid)
 
 -- (UserFilter)
 -- get user-specified fields for particular general user
@@ -387,6 +387,10 @@ SELECT %s FROM Users NATURAL JOIN GeneralUser WHERE uid = :uid
 
 -- get user-specified fields for all general users
 SELECT %s FROM Users NATURAL JOIN GeneralUser
+
+-- (NaturalJoin)
+-- get results from two user-specified relations natural joined together
+SELECT * FROM :r1 NATURAL JOIN :r2
 
 
 /*
@@ -397,25 +401,39 @@ SELECT * FROM PasswordChange WHERE uid = :uid ORDER BY changedon
 
 SELECT * FROM PasswordChange ORDER BY uid, changedon
 
+--- login (auth)
+SELECT u.uid, g.username, u.email, u.password FROM users u
+LEFT JOIN administrator a ON u.uid = a.uid
+LEFT JOIN generaluser g ON u.uid = g.uid
+WHERE u.email = :email AND u.password = :password
 
 
+--- Game Photos
+INSERT INTO gamephotos (gphid, cover, banner) VALUES (:gphid, :cover, :banner)
+
+UPDATE gamephotos SET cover = :cover, banner = :banner WHERE gphid = :gphid
+
+DELETE FROM gamephotos WHERE gphid = :gphid
+
+SELECT * FROM gamephotos WHERE gphid = :gphid
+
+SELECT * FROM gamephotos
 
 
+--- General User set profileimage
+UPDATE generalUser SET username = :username, profileImage = :profileImage WHERE uid = :uid
 
+--- User get by email
+SELECT * FROM users WHERE email = :email
 
+--- Additional Queries for FE
+SELECT * FROM criticReview WHERE gid = :gid
 
+SELECT gp.gpid, gp.name FROM PlayableOn p
+LEFT JOIN GamePlatform gp ON gp.gpid = p.gpid
+WHERE p.gid = :gid
 
-
-
-
-
-
-
-
-
-
-
-
+SELECT * FROM userReview u LEFT JOIN generaluser gu ON gu.uid = u.uid WHERE u.gid = :gid
 
 
 

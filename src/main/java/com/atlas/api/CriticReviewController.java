@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("*")
 @RequestMapping("app/critic-review")
 @RestController
 public class CriticReviewController {
@@ -44,5 +44,10 @@ public class CriticReviewController {
     @GetMapping
     public List<CriticReview> getAll() {
         return criticReviewService.getAll();
+    }
+
+    @GetMapping(path = "game/{gid}")
+    public List<CriticReview> getAllByGid(@PathVariable("gid") int id) {
+      return criticReviewService.getAllByGid(id);
     }
 }

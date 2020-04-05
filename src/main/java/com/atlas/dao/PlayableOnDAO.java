@@ -1,5 +1,6 @@
 package com.atlas.dao;
 
+import com.atlas.model.GamePlatform;
 import com.atlas.model.PlayableOn;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface PlayableOnDAO {
     Optional<PlayableOn> get(int gid, int gpid);
 
     List<PlayableOn> getAll();
+
+    List<GamePlatform> getAllPlatformsForVideoGame(int gid);
 }

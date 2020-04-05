@@ -3,7 +3,9 @@ package com.atlas.api;
 import com.atlas.model.GeneralUser;
 import com.atlas.service.GeneralUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -44,5 +46,19 @@ public class GeneralUserController {
     @GetMapping
     public List<GeneralUser> getAll() {
         return generalUserService.getAll();
+    }
+
+    @PostMapping(
+            path = "{id}/image/upload",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public void uploadUserProfileImage(@PathVariable("id") int id, @RequestParam("file") MultipartFile file) {
+        generalUserService.uploadUserProfileImage(id, file);
+    }
+
+    @GetMapping(path = "{id}/image/download")
+    public byte[] downloadUserProfileImage(@PathVariable("id") int id) {
+        return generalUserService.downloadUserProfileImage(id);
     }
 }

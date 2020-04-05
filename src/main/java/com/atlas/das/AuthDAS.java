@@ -11,7 +11,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Repository("postgres-auth")
 public class AuthDAS implements AuthDAO {
@@ -26,7 +29,7 @@ public class AuthDAS implements AuthDAO {
   }
 
   @Override
-  public int login(Auth auth) {
+  public Map login(Auth auth) {
     final String sql = "SELECT u.uid, g.username, u.email, u.password FROM users u " +
             "LEFT JOIN administrator a ON u.uid = a.uid " +
             "LEFT JOIN generaluser g ON u.uid = g.uid " +
@@ -36,34 +39,54 @@ public class AuthDAS implements AuthDAO {
     args.addValue("email", auth.getEmail());
     args.addValue("password", auth.getPassword());
 
+    Map<String, Object> resp = new HashMap<>();
     try {
       List<Auth> users = namedParameterJdbcTemplate.query(sql, args, (resultSet, i) -> formatResultSet(resultSet));
 
       Auth authUser = null;
       if (users.size() > 0) {
         authUser = users.get(0);
+        resp.put("user", authUser);
         if(authUser.getUsername() == null)
-          return ADMIN_USER;
+            resp.put("code", ADMIN_USER);
         else
-          return GENERAL_USER;
+            resp.put("code", GENERAL_USER);
+      } else {
+          resp.put("code", INVALID);
       }
-
-      return INVALID;
     } catch(Exception e) {
       System.out.println(e);
-      return INVALID;
+      resp.put("code", INVALID);
     }
+
+    return resp;
   }
 
   @Override
   public int signUp(Auth auth, String username) {
     UsersDAS usersDAS = new UsersDAS(namedParameterJdbcTemplate);
-    usersDAS.insert(new Users(auth.getEmail(), auth.getPassword()));
+    int ret = usersDAS.insert(new Users(auth.getEmail(), auth.getPassword()));
+    if(ret == 0)
+        return 0;
+
+    Optional<Users> user = usersDAS.getByEmail(auth.getEmail());
 
     GeneralUserDAS generalUserDAS = new GeneralUserDAS(namedParameterJdbcTemplate);
-    generalUserDAS.insert(new GeneralUser(username, null));
+    Users newUser = null;
+    if(user.isPresent())
+        newUser = user.get();
 
-    return 1;
+    if(newUser != null) {
+        ret = generalUserDAS.insert(new GeneralUser(newUser.getUid(), username, ""));
+        if(ret == 0) {
+            usersDAS.delete(newUser.getUid());
+            return 0;
+        }
+
+        return 1;
+    }
+
+    return 0;
   }
 
   private static Auth formatResultSet(ResultSet rs) throws SQLException {

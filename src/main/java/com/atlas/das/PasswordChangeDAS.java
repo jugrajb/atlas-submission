@@ -30,7 +30,7 @@ public class PasswordChangeDAS implements PasswordChangeDAO {
 
     @Override
     public List<PasswordChange> getAll() {
-        final String sql = "SELECT * FROM PasswordChange ORDER BY uid, changedon";
+        final String sql = "SELECT * FROM PasswordChange ORDER BY changedon DESC";
         return namedParameterJdbcTemplate.query(sql, (resultSet, i) -> formatResultSet(resultSet));
     }
 

@@ -2,8 +2,10 @@ package com.atlas.dao;
 
 import com.atlas.model.Auth;
 
+import java.util.Map;
+
 public interface AuthDAO {
-  int login(Auth auth);
+  Map<String, Object> login(Auth auth);
 
   int signUp(Auth auth, String username);
 }

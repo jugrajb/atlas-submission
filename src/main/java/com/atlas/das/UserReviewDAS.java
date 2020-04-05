@@ -1,6 +1,7 @@
 package com.atlas.das;
 
 import com.atlas.dao.UserReviewDAO;
+import com.atlas.model.GeneralUser;
 import com.atlas.model.UserReview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository("postgres-userreview")
@@ -112,7 +115,17 @@ public class UserReviewDAS implements UserReviewDAO {
         return namedParameterJdbcTemplate.query(sql, (resultSet, i) -> formatResultSet(resultSet));
     }
 
-    private static UserReview formatResultSet(ResultSet resultSet) throws SQLException {
+  @Override
+  public List<Map<String, Object>> getAllByGid(int id) {
+    final String sql  = "SELECT * FROM userReview u LEFT JOIN generaluser gu ON gu.uid = u.uid WHERE u.gid = :gid";
+
+    MapSqlParameterSource args = new MapSqlParameterSource();
+    args.addValue("gid", id);
+
+    return namedParameterJdbcTemplate.query(sql, args, (resultSet, i) -> formatResultSetUser(resultSet));
+  }
+
+  private static UserReview formatResultSet(ResultSet resultSet) throws SQLException {
         return new UserReview(
                 Integer.parseInt(resultSet.getString("rid").trim()),
                 Integer.parseInt(resultSet.getString("uid").trim()),
@@ -123,4 +136,16 @@ public class UserReviewDAS implements UserReviewDAO {
                 Date.valueOf(resultSet.getString("date").trim())
         );
     }
+
+  private static Map<String, Object> formatResultSetUser(ResultSet resultSet) throws SQLException {
+      Map<String, Object> reviewUser = new HashMap<>();
+
+      UserReview review = formatResultSet(resultSet);
+      GeneralUser user = GeneralUserDAS.formatResultSet(resultSet);
+
+      reviewUser.put("user", user);
+      reviewUser.put("review", review);
+
+      return reviewUser;
+  }
 }

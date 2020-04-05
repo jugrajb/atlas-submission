@@ -15,4 +15,6 @@ public interface CriticReviewDAO {
     Optional<CriticReview> get(int id);
 
     List<CriticReview> getAll();
+
+    List<CriticReview> getAllByGid(int id);
 }

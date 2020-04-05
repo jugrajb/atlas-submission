@@ -432,3 +432,39 @@ CREATE TRIGGER password_changes
     ON Users
     FOR EACH ROW
     EXECUTE PROCEDURE log_password_changes();
+
+
+-- V5 - update user profile S3
+
+ALTER TABLE generaluser
+ALTER COLUMN profileimage TYPE varchar;
+
+
+-- V6 - Game Photo Table
+
+CREATE TABLE GamePhotos (
+    gphid INT PRIMARY KEY,
+    cover VARCHAR,
+    banner VARCHAR,
+    FOREIGN KEY (gphid) REFERENCES VideoGame (gid)
+);
+
+INSERT INTO GamePhotos (gphid, cover, banner) VALUES (1, 'uncharted_1.jpg', 'uncharted_1.jpg');
+INSERT INTO GamePhotos (gphid, cover, banner) VALUES (2, 'uncharted_2.jpg', 'uncharted_2.png');
+INSERT INTO GamePhotos (gphid, cover, banner) VALUES (3, 'god_of_war.jpg', 'god_of_war.png');
+INSERT INTO GamePhotos (gphid, cover, banner) VALUES (4, 'cod_1.jpg', 'cod_1.jpg');
+INSERT INTO GamePhotos (gphid, cover, banner) VALUES (5, 'cod_4.jpg', 'cod_4.jpg');
+INSERT INTO GamePhotos (gphid, cover, banner) VALUES (6, 'halo_1.jpg', 'halo_1.jpg');
+INSERT INTO GamePhotos (gphid, cover, banner) VALUES (7, 'halo_2.png', 'halo_2.jpg');
+INSERT INTO GamePhotos (gphid, cover, banner) VALUES (8, 'halo_3.jpg', 'halo_3.jpg');
+INSERT INTO GamePhotos (gphid, cover, banner) VALUES (9, 'mass_effect_1.jpg', 'mass_effect_1.jpg');
+INSERT INTO GamePhotos (gphid, cover, banner) VALUES (10, 'mass_effect_2.png', 'mass_effect_2.jpg');
+
+
+-- V7 - worked on roles, insert extra reviews
+
+UPDATE WorkedOn SET role = 'n/a' WHERE role IS NULL;
+
+INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (7,3,'Meh','God of War is okay, nothing great',5,'2020-04-04');
+
+INSERT INTO UserReview (uid, gid, title, review, score, date) VALUES (7,10,'Absolute garbage','complete waste of money. dont bother playing it even if they PAY you to do it',1,'2020-04-04');

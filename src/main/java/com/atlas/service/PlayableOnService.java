@@ -1,6 +1,7 @@
 package com.atlas.service;
 
 import com.atlas.dao.PlayableOnDAO;
+import com.atlas.model.GamePlatform;
 import com.atlas.model.PlayableOn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,5 +37,9 @@ public class PlayableOnService {
 
     public List<PlayableOn> getAll() {
         return playableOnDAO.getAll();
+    }
+
+    public List<GamePlatform> getAllPlatformsForVideoGame(int gid) {
+      return playableOnDAO.getAllPlatformsForVideoGame(gid);
     }
 }

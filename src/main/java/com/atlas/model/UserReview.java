@@ -37,7 +37,7 @@ public class UserReview {
             @JsonProperty("title") String title,
             @JsonProperty("review") String review,
             @JsonProperty("score") int score,
-            @JsonProperty("date") Date date
+            @JsonProperty("date") String date
     ) {
         this.rid = 0;
         this.uid = uid;
@@ -45,7 +45,7 @@ public class UserReview {
         this.title = title;
         this.review = review;
         this.score = score;
-        this.date = date;
+        this.date = Date.valueOf(date);
     }
 
 

@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Map;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("app/auth")
 public class AuthController {
@@ -20,7 +22,7 @@ public class AuthController {
   }
 
   @PostMapping
-  public int login(@Valid @NotNull @RequestBody Auth auth) {
+  public Map<String, Object> login(@Valid @NotNull @RequestBody Auth auth) {
     return authService.login(auth);
   }
 

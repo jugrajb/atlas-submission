@@ -1,8 +1,8 @@
 package com.atlas.das;
 
 import com.atlas.dao.PlayableOnDAO;
+import com.atlas.model.GamePlatform;
 import com.atlas.model.PlayableOn;
-import com.atlas.model.WorkedOn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -75,7 +75,22 @@ public class PlayableOnDAS implements PlayableOnDAO {
         return namedParameterJdbcTemplate.query(sql, (resultSet, i) -> formatResultSet(resultSet));
     }
 
-    private PlayableOn formatResultSet(ResultSet rs) throws SQLException {
+  @Override
+  public List<GamePlatform> getAllPlatformsForVideoGame(int gid) {
+      final String sql = "SELECT gp.gpid, gp.name FROM PlayableOn p " +
+              "LEFT JOIN GamePlatform gp ON gp.gpid = p.gpid " +
+              "WHERE p.gid = :gid";
+
+      MapSqlParameterSource args = new MapSqlParameterSource();
+      args.addValue("gid", gid);
+
+      List<GamePlatform> platforms = namedParameterJdbcTemplate.query(sql, args,
+              (resultSet, i) -> GamePlatformDAS.formatResultSet(resultSet));
+
+      return platforms;
+  }
+
+  private PlayableOn formatResultSet(ResultSet rs) throws SQLException {
         return new PlayableOn(
                 rs.getInt("gid"),
                 rs.getInt("gpid")

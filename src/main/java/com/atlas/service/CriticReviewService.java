@@ -37,4 +37,8 @@ public class CriticReviewService {
     public int update(int id, CriticReview criticReview) {
         return criticReviewDAO.update(id, criticReview);
     }
+
+    public List<CriticReview> getAllByGid(int id) {
+      return criticReviewDAO.getAllByGid(id);
+    }
 }

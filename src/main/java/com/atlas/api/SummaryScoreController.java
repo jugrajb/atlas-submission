@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("*")
 @RequestMapping("app/summary-score")
 @RestController
 public class SummaryScoreController {
@@ -19,13 +19,13 @@ public class SummaryScoreController {
     }
 
     @GetMapping(path = "critic/{gid}")
-    public SummaryScore getUserSummaryById(@PathVariable("gid") int gid) {
-        return summaryScoreService.getSummaryUserById(gid).orElse(null);
+    public SummaryScore getCriticSummaryById(@PathVariable("gid") int gid) {
+        return summaryScoreService.getSummaryCriticById(gid).orElse(null);
     }
 
     @GetMapping(path = "user/{gid}")
-    public SummaryScore getCriticSummaryById(@PathVariable("gid") int gid) {
-        return summaryScoreService.getSummaryCriticById(gid).orElse(null);
+    public SummaryScore getUserSummaryById(@PathVariable("gid") int gid) {
+        return summaryScoreService.getSummaryUserById(gid).orElse(null);
     }
 
     @GetMapping(path = "user")

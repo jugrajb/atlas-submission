@@ -3,7 +3,6 @@ package com.atlas.das;
 import com.atlas.dao.GeneralUserDAO;
 import com.atlas.model.GeneralUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -32,8 +31,8 @@ public class GeneralUserDAS implements GeneralUserDAO {
 
         MapSqlParameterSource args = new MapSqlParameterSource();
         args.addValue("uid", generalUser.getUid());
-        args.addValue("firstname", generalUser.getUsername());
-        args.addValue("lastname", generalUser.getProfileImage());
+        args.addValue("username", generalUser.getUsername());
+        args.addValue("profileImage", generalUser.getProfileImage());
 
         try {
             namedParameterJdbcTemplate.update(sql,args);
@@ -47,7 +46,7 @@ public class GeneralUserDAS implements GeneralUserDAO {
     @Override
     public int update(int id, GeneralUser generalUser) {
         final String sql =
-                "UPDATE generalUser SET username = :uername, profileImage = :profileImage, WHERE uid = :uid";
+                "UPDATE generalUser SET username = :username, profileImage = :profileImage WHERE uid = :uid";
 
         MapSqlParameterSource args = new MapSqlParameterSource();
         args.addValue("username", generalUser.getUsername());
@@ -103,16 +102,15 @@ public class GeneralUserDAS implements GeneralUserDAO {
         return namedParameterJdbcTemplate.query(sql, (resultSet, i) -> formatResultSet(resultSet));
     }
 
-    private static GeneralUser formatResultSet(ResultSet resultSet) throws SQLException {
-        byte[] bytes = resultSet.getBytes("profileImage");
-        ByteArrayResource bar = null;
-        if (bytes != null)  {
-            bar = new ByteArrayResource(bytes);
+    public static GeneralUser formatResultSet(ResultSet resultSet) throws SQLException {
+        String profileImage = resultSet.getString("profileImage");
+        if (profileImage != null)  {
+            profileImage = profileImage.trim();
         }
         return new GeneralUser(
                 Integer.parseInt(resultSet.getString("uid").trim()),
                 resultSet.getString("username").trim(),
-                bar
+                profileImage
         );
     }
 }

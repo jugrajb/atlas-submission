@@ -30,9 +30,11 @@ public class UsersDAS implements UsersDAO {
                         "VALUES (:email, :password)";
 
         MapSqlParameterSource args = new MapSqlParameterSource();
-//        args.addValue("uid", users.getUid());
         args.addValue("email", users.getEmail());
         args.addValue("password", users.getPassword());
+
+        if(users.getPassword().length() == 0)
+            return 0;
 
         try {
             namedParameterJdbcTemplate.update(sql,args);
@@ -86,6 +88,22 @@ public class UsersDAS implements UsersDAO {
 
         MapSqlParameterSource args = new MapSqlParameterSource();
         args.addValue("uid", id);
+
+        List<Users> users = namedParameterJdbcTemplate.query(sql, args, ((resultSet, i) -> formatResultSet(resultSet)));
+
+        Users user = null;
+
+        if(users.size() > 0)
+            user = users.get(0);
+
+        return Optional.ofNullable(user);
+    }
+
+    public Optional<Users> getByEmail(String email) {
+        final String sql = "SELECT * FROM users WHERE email = :email";
+
+        MapSqlParameterSource args = new MapSqlParameterSource();
+        args.addValue("email", email);
 
         List<Users> users = namedParameterJdbcTemplate.query(sql, args, ((resultSet, i) -> formatResultSet(resultSet)));
 
